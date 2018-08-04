@@ -1,0 +1,195 @@
+package com.amazonaws.demo.sns.lambda;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.io.IOUtils;
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;	
+import com.amazonaws.demo.sns.mail.AmazonSESComposeAndSendRAWMIMEEmail;
+import com.amazonaws.demo.sns.mail.AmazonSESEmailSender;
+import com.amazonaws.demo.sns.mail.AmazonSESSenderVarification;
+import com.amazonaws.demo.sns.message.MessageSNS;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClient;
+import com.amazonaws.services.sns.AmazonSNSClient;
+import com.amazonaws.services.sns.model.GetSMSAttributesRequest;
+import com.amazonaws.services.sns.model.MessageAttributeValue;
+import com.amazonaws.services.sns.model.SetSMSAttributesRequest;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+public class LambdaSNS implements RequestStreamHandler {
+
+	AWSCredentials  credentials = new BasicAWSCredentials("AKIAIDKUZPM5OMYLXFVA",
+			"XITjUnboU3hThgyuR32sAJ3vnBibuVEXDEjB/Nda");
+
+	String to;
+	String from;
+	String textBody;
+	String cc;
+	String bcc;
+	String sub;
+	String snsType;
+	String htmlBody;
+	String hasAttachement;
+	String attachmentLocation;
+	String phoneNumber;
+	
+
+	public static void main(String[] args) throws IOException {
+		JsonObject jsonObject = new JsonObject();
+//		 jsonObject.addProperty("name", "piyush");
+	}
+
+	
+	public static void setDefaultSmsAttributes(AmazonSNSClient snsClient) {
+		SetSMSAttributesRequest setRequest = new SetSMSAttributesRequest()
+				.addAttributesEntry("DefaultSenderID", "mySenderID").addAttributesEntry("MonthlySpendLimit", "1")
+				.addAttributesEntry("DeliveryStatusIAMRole", "arn:aws:iam::123456789012:role/mySnsRole")
+				.addAttributesEntry("DeliveryStatusSuccessSamplingRate", "10")
+				.addAttributesEntry("DefaultSMSType", "Transactional")
+				.addAttributesEntry("UsageReportS3Bucket", "sns-sms-daily-usage");
+		snsClient.setSMSAttributes(setRequest);
+
+		Map<String, String> myAttributes = snsClient.getSMSAttributes(new GetSMSAttributesRequest()).getAttributes();
+		System.out.println("My SMS attributes:");
+		for (String key : myAttributes.keySet()) {
+			System.out.println(key + " = " + myAttributes.get(key));
+		}
+	}
+	
+	@Override
+	public void handleRequest(InputStream inputStream, OutputStream outputStream, Context context) throws IOException {
+		System.out.println("--------------------------> inside handleRequest starts");
+		String request = null;
+		JsonObject jsonObject = null;
+		try {
+			System.out
+					.println("--------------------------> before request = IOUtils.toString(inputStream, \"UTF-8\");");
+			request = IOUtils.toString(inputStream, "UTF-8");
+			System.out.println("--------------------------> before request = " + request);
+
+			jsonObject = new JsonParser().parse(request).getAsJsonObject();
+			System.out.println("--------------------------> jsonObject = " + jsonObject);
+
+			to = jsonObject.get("to").getAsString();
+			System.out.println("to---"+to);
+			
+			from = jsonObject.get("from").getAsString();
+			System.out.println("from---"+from);
+			
+			textBody = jsonObject.get("text_body").getAsString();
+			System.out.println("textBody---"+textBody);
+			
+			cc = jsonObject.get("cc").getAsString();
+			System.out.println("cc---"+cc);
+			
+			bcc = jsonObject.get("bcc").getAsString();
+			System.out.println("bcc---"+bcc);
+			
+			sub = jsonObject.get("sub").getAsString();
+			System.out.println("sub---"+sub);
+			
+			snsType = jsonObject.get("sns_type").getAsString();
+			System.out.println("sns_type---"+snsType);
+			
+			htmlBody = jsonObject.get("html_body").getAsString();
+			System.out.println("htmlBody---"+htmlBody);
+			
+			hasAttachement = jsonObject.get("has_attachment").getAsString();
+			System.out.println("hasAttachement---"+hasAttachement);
+			
+			attachmentLocation = jsonObject.get("attachment_location").getAsString();
+			System.out.println("attachmentLocation---"+attachmentLocation);
+			
+			phoneNumber=jsonObject.get("phone_number").getAsString();
+			System.out.println("phoneNumber---"+phoneNumber);
+			
+			System.out.println("before varification");
+//			AWSCredentials credentials = new BasicAWSCredentials("AKIAJLJP7L62ZLAAMARA",
+//					"Tul8iMnfHla8k9N4N3ZSX1z+edsw3ojutF/a5oHO");
+//			AmazonSimpleEmailService service = new AmazonSimpleEmailServiceClient(credentials);
+
+			AmazonSimpleEmailService service = new AmazonSimpleEmailServiceClient();
+			service.setRegion(Region.getRegion(Regions.US_WEST_2));
+			System.out.println(service);
+			
+			// Verification
+			
+			if(snsType.equals("email")){
+				//send email
+				System.out.println("before varification");
+				if(AmazonSESSenderVarification.verifyEmailAddress(service, from))
+				{
+					System.out.println("varification done");
+				if(hasAttachement.equals("true")){
+			    //AWSCredentials credentials, TO,  FROM,  HTMLBODY, TEXTBODY,  SUBJECT,  attachmentLocation
+					AmazonSESComposeAndSendRAWMIMEEmail.sendRAWMail( credentials, to,  from,  htmlBody, textBody,  sub,attachmentLocation);
+				}else{
+					System.out.println("before sending mail");
+					List<String> TO = new ArrayList();
+						List<String> BCC = new ArrayList();;
+					List<String> CC = new ArrayList();;
+					
+					
+					if(to.contains(","))
+					{
+						 TO = new ArrayList<String>(Arrays.asList(to.split(",")));
+					}else{
+						TO.add(to);
+					}
+					if(bcc.contains(","))
+					{
+						 BCC = new ArrayList<String>(Arrays.asList(bcc.split(",")));
+					}else{
+						BCC.add(to);
+					}
+					if(cc.contains(","))
+					{
+						 CC = new ArrayList<String>(Arrays.asList(cc.split(",")));
+					}else{
+						CC.add(cc);
+					}
+					AmazonSESEmailSender.sendTextMail(credentials, TO, from, CC,BCC,htmlBody, textBody, sub);
+				}
+				}
+			}
+			else if(snsType.equals("message")){
+				// if send mobile message
+				AmazonSNSClient snsClient = new AmazonSNSClient(credentials);
+				snsClient.setRegion(Region.getRegion(Regions.US_WEST_2));
+				setDefaultSmsAttributes(snsClient);
+				List<String> nos=null;
+				if(phoneNumber.contains(","))
+				{
+					 nos = new ArrayList<String>(Arrays.asList(phoneNumber.split(",")));
+				}
+				else{
+					nos.add(phoneNumber);
+				}
+				
+				for(String eachNos:nos){
+					MessageSNS.sendSMSMessage(snsClient, textBody, eachNos, new HashMap<String, MessageAttributeValue>());
+				}
+			}
+			// if send email
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			outputStream.write(e.getMessage().getBytes());
+		}
+	}
+
+}

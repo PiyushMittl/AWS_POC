@@ -1,0 +1,10 @@
+C:\workspaces\AWS_POC\aws-sns\src\main\java\com\amazonaws\demo\sns\mail\MailSNS.java
+C:\workspaces\AWS_POC\aws-sns\src\main\java\com\amazonaws\demo\sns\mail\AmazonSESEmailSender.java
+C:\workspaces\AWS_POC\aws-sns\src\main\java\com\amazonaws\demo\sns\mail\AmazonSESComposeAndSendRAWMIMEEmail3.java
+C:\workspaces\AWS_POC\aws-sns\src\main\java\com\amazonaws\demo\sns\local\LocalSender.java
+C:\workspaces\AWS_POC\aws-sns\src\main\java\com\amazonaws\demo\sns\mail\AmazonSESComposeAndSendRAWMIMEEmail.java
+C:\workspaces\AWS_POC\aws-sns\src\main\java\com\amazonaws\demo\sns\mail\AmazonSESComposeAndSendRAWMIMEEmail2.java
+C:\workspaces\AWS_POC\aws-sns\src\main\java\com\amazonaws\demo\sns\mail\AmazonSESSenderVarification.java
+C:\workspaces\AWS_POC\aws-sns\src\main\java\com\amazonaws\demo\sns\message\MessageSNS.java
+C:\workspaces\AWS_POC\aws-sns\src\main\java\com\amazonaws\demo\sns\entity\NotificationEntity.java
+C:\workspaces\AWS_POC\aws-sns\src\main\java\com\amazonaws\demo\sns\lambda\LambdaSNS.java

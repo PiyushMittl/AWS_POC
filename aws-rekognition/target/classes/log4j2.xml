@@ -1,0 +1,40 @@
+<Configuration name="Log4jConfiguration" status="trace"
+	strict="true" schema="Log4J-V2.0.xsd">
+
+	<Properties>
+		<Property name="generic_pattern">%d %p %m%n</Property>
+		<Property name="filename-perf">aws-reko_perf_info.log
+		</Property>
+		<Property name="filename-perf-error">aws-reko_perf_error.log
+		</Property>
+	</Properties>
+
+	<Appenders>
+		<RollingRandomAccessFile name="appender-perf-error"
+			fileName="${filename-perf-error}" filePattern="${filename-perf-error}.%i"
+			immediateFlush="false" append="true">
+			<PatternLayout pattern="${generic_pattern}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="5 MB" />
+			</Policies>
+			<DefaultRolloverStrategy fileIndex="min" max="10" />
+		</RollingRandomAccessFile>
+
+
+		<RollingRandomAccessFile name="appender-perf"
+			fileName="${filename-perf}" filePattern="${filename-perf}.%i"
+			immediateFlush="false" append="true">
+			<PatternLayout pattern="${generic_pattern}" />
+			<Policies>
+				<SizeBasedTriggeringPolicy size="5 MB" />
+			</Policies>
+			<DefaultRolloverStrategy fileIndex="min" max="10" />
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<Loggers>
+		<Root level="trace">
+			<AppenderRef ref="appender-perf" />
+		</Root>
+	</Loggers>
+</Configuration>   
