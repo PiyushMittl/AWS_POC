@@ -4,7 +4,6 @@
 	<groupId>com.piyush.aws</groupId>
 	<artifactId>aws-sns</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-lambda-java-events -->
 		<dependency>
