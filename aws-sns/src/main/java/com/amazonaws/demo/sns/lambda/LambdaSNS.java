@@ -276,7 +276,7 @@ public class LambdaSNS implements RequestHandler<KinesisEvent, String> {
 						AmazonSESEmailSender.sendTextMail(credentials, TO, from, CC, BCC, htmlBody, textBody, sub);
 					}
 				}
-			} else if (notificationEntity.getSns_type().equals("message")) {
+			} else if (notificationEntity.getSns_type().equals("message")) {//
 				// if send mobile message
 				AmazonSNSClient snsClient = new AmazonSNSClient(credentials);
 				snsClient.setRegion(Region.getRegion(Regions.US_WEST_2));
