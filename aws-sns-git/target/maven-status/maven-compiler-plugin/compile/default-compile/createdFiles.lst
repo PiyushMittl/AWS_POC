@@ -1,8 +1,0 @@
-com\amazonaws\demo\sns\entity\NotificationEntity.class
-com\amazonaws\demo\sns\lambda\LambdaSNS.class
-com\amazonaws\demo\sns\mail\AmazonSESComposeAndSendRAWMIMEEmail.class
-com\amazonaws\demo\sns\mail\AmazonSESSenderVarification.class
-com\amazonaws\demo\sns\message\MessageSNS.class
-com\amazonaws\demo\sns\mail\AmazonSESEmailSender.class
-com\amazonaws\demo\sns\mail\AmazonSESComposeAndSendRAWMIMEEmail2.class
-com\amazonaws\demo\sns\mail\MailSNS.class
