@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  SampleLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: com.piyush.sms.lambda.CallBack::messagingRequest
+      Code:
+       S3Bucket: messaging-bucket-app
+       S3Key: message-lambda-jar-with-dependencies.jar
+      Runtime: java8
+      Role: arn:aws:iam::751125203171:role/service-role/LambdaExecutionRole
