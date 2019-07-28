@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Implementation-Title: AWS IoT Java Starter Project
 Implementation-Version: 1.1-SNAPSHOT
-Built-By: PiyushMittal
+Built-By: abc
 Specification-Title: AWS IoT Java Starter Project
 Implementation-Vendor-Id: de.ozzc
-Class-Path: pi4j-core-1.2-20180423.162750-37.jar org.eclipse.paho.clie
+Class-Path: pi4j-core-1.2-20190226.164806-39.jar org.eclipse.paho.clie
  nt.mqttv3-1.0.2.jar bcprov-jdk15on-1.54.jar bcpkix-jdk15on-1.54.jar l
  ogback-classic-1.1.7.jar logback-core-1.1.7.jar slf4j-api-1.7.21.jar 
  aws-java-sdk-iot-1.11.178.jar aws-java-sdk-core-1.10.68.jar commons-l
@@ -12,7 +12,7 @@ Class-Path: pi4j-core-1.2-20180423.162750-37.jar org.eclipse.paho.clie
  c-1.6.jar jackson-databind-2.5.3.jar jackson-annotations-2.5.0.jar ja
  ckson-core-2.5.3.jar jackson-dataformat-cbor-2.5.3.jar joda-time-2.8.
  1.jar jmespath-java-1.11.178.jar
-Build-Jdk: 1.8.0_91
+Build-Jdk: 1.8.0_211
 Specification-Version: 1.1-SNAPSHOT
 Created-By: Maven Integration for Eclipse
 Main-Class: Main
