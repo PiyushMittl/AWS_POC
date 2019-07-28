@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+    - dev
+    - tst
+    - prod
+Mappings:
+  EnvironmentMap:
+    dev:
+      bucket: messaging-bucket-app
+    tst:
+      bucket: messaging-bucket-app-tst
+    prod:
+      bucket: messaging-bucket-app-prod
+
+Resources:
+  SampleLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: com.piyush.sms.lambda.CallBack::messagingRequest
+      Code:
+       S3Bucket: !FindInMap [EnvironmentMap, !Ref Environment , bucket]
+       S3Key: message-lambda-jar-with-dependencies.jar
+      Runtime: java8
+      Role: arn:aws:iam::751125203171:role/service-role/LambdaExecutionRole
+      FunctionName: !Sub lambda-${Environment}
