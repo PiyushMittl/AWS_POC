@@ -15,7 +15,6 @@ Mappings:
       bucket: messaging-bucket-app-tst
     prod:
       bucket: messaging-bucket-app-prod
-
 Resources:
   SampleLambdaFunction:
     Type: AWS::Lambda::Function
