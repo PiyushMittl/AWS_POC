@@ -3,6 +3,7 @@
 
 # this cloudformation demostrates how to creating role and policy resources, passing resource values to each other
 # creating policy and passing policy ARN to role and attaching already created policy role
+# after creating role its passing its ARN in key/variable which will be used in another cloudformation ie 5.2-template-import
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   Environment:
@@ -14,9 +15,9 @@ Parameters:
     - prod
 Resources:
   s3policy:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
-      PolicyName: s3-getobject-policy
+      ManagedPolicyName: s3-getobject-policy
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -26,11 +27,26 @@ Resources:
           - s3:PutObject
           - s3:PutObjectAcl
           Resource: arn:aws:s3:::messaging-bucket-app/*
-  SampleLambdaFunction:
+  RoleForLambdaFunction:
     Type: AWS::IAM::Role
     Properties:
-      ManagedPolicyArns: 
-       - arn:aws:iam::751125203171:role/service-role/LambdaExecutionRole
-      Policies: 
-       - !GetAtt s3policy.Arn
-      RoleName: String
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+            Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: 
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+         - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+         - !Ref s3policy
+      RoleName: RoleForLambda
+    DependsOn: s3policy
+Outputs:
+  # this is key/variable name
+  RoleARNForLambdaFunction:
+    Description: The ARN of the sample lambda
+    # this is the value assigned to the variable
+    Value: !GetAtt RoleForLambdaFunction.Arn     

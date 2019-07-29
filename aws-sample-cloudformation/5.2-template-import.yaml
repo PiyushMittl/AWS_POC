@@ -28,12 +28,6 @@ Resources:
        S3Bucket: !FindInMap [EnvironmentMap, !Ref Environment , bucket]
        S3Key: message-lambda-jar-with-dependencies.jar
       Runtime: java8
-      Role: arn:aws:iam::751125203171:role/service-role/LambdaExecutionRole
+      # importing ARN created in 5.1-template-export clouformation
+      Role: !ImportValue RoleARNForLambdaFunction
       FunctionName: !Sub lambda-${Environment}
-Outputs:
-  LambdaFunctionArn:
-    Description: The ARN of the sample lambda
-    Value: !GetAtt SampleLambdaFunction.Arn
-  LambdaFunctionResourceName:
-    Description: The Resource Name
-    Value: !Ref SampleLambdaFunction
