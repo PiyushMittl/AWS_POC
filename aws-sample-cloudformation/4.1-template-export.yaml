@@ -1,3 +1,4 @@
+# creating role and exporting role ARN to use it in another clouformation
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   Environment:
@@ -26,3 +27,10 @@ Resources:
       Runtime: java8
       Role: arn:aws:iam::751125203171:role/service-role/LambdaExecutionRole
       FunctionName: !Sub lambda-${Environment}
+Outputs:
+  LambdaFunctionArn:
+    Description: The ARN of the sample lambda
+    Value: !GetAtt SampleLambdaFunction.Arn
+  LambdaFunctionResourceName:
+    Description: The Resource Name
+    Value: !Ref SampleLambdaFunction

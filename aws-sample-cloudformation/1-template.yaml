@@ -1,5 +1,10 @@
-AWSTemplateFormatVersion: '2010-09-09'
+# pre-requisite to run this lambda function is 
+# 1. one bucket at the same region where you are running this lambda
+# 2. jar file or code to run this lambda inside your bucket
 
+# this cloudformation is used to create a lambda function
+AWSTemplateFormatVersion: '2010-09-09'
+# Resource to create a lambda function
 Resources:
   SampleLambdaFunction:
     Type: AWS::Lambda::Function

@@ -1,0 +1,45 @@
+# pre-requisite to run this lambda function is 
+# 1. one bucket at the same region where you are running this lambda
+# 2. jar file or code to run this lambda inside your bucket
+
+# this cloudformation is used to create a lambda function
+# demonstrate the use of outputs
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+    - dev
+    - tst
+    - prod
+Mappings:
+  EnvironmentMap:
+    dev:
+      bucket: messaging-bucket-app
+    tst:
+      bucket: messaging-bucket-app-tst
+    prod:
+      bucket: messaging-bucket-app-prod
+Resources:
+  SampleLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: com.piyush.sms.lambda.CallBack::messagingRequest
+      Code:
+       S3Bucket: !FindInMap [EnvironmentMap, !Ref Environment , bucket]
+       S3Key: message-lambda-jar-with-dependencies.jar
+      Runtime: java8
+      Role: arn:aws:iam::751125203171:role/service-role/LambdaExecutionRole
+      FunctionName: !Sub lambda-${Environment}
+Outputs:
+  # this is key/variable name
+  LambdaFunctionArn:
+    Description: The ARN of the sample lambda
+    # this is the value assigned to the variable
+    Value: !GetAtt SampleLambdaFunction.Arn
+  # this is variable name
+  LambdaFunctionResourceName:
+    Description: The Resource Name
+    # this is resource logical id or name assigned to above variable
+    Value: !Ref SampleLambdaFunction

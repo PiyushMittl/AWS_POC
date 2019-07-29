@@ -1,0 +1,38 @@
+# pre-requisite to run this lambda function is 
+# 1. one bucket at the same region where you are running this lambda
+# 2. jar file or code to run this lambda inside your bucket
+
+# this cloudformation is used to create a lambda function
+# demonstrate the use of Parameter and Mapping to remove hard coded values
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  # Parameter Environment
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+    - dev
+    - tst
+    - prod
+Mappings:
+  # mapping of bucket on the basis of Environment
+  EnvironmentMap:
+    dev:
+      bucket: messaging-bucket-app
+    tst:
+      bucket: messaging-bucket-app-tst
+    prod:
+      bucket: messaging-bucket-app-prod
+Resources:
+  SampleLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: com.piyush.sms.lambda.CallBack::messagingRequest
+      Code:
+       # selecting bucket on the basis of Environment
+       S3Bucket: !FindInMap [EnvironmentMap, !Ref Environment , bucket]
+       S3Key: message-lambda-jar-with-dependencies.jar
+      Runtime: java8
+      Role: arn:aws:iam::751125203171:role/service-role/LambdaExecutionRole
+      # appending the Environment in the name of lambda function
+      FunctionName: !Sub lambda-${Environment}
