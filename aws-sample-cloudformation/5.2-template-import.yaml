@@ -29,5 +29,8 @@ Resources:
        S3Key: message-lambda-jar-with-dependencies.jar
       Runtime: java8
       # importing ARN created in 5.1-template-export clouformation
-      Role: !ImportValue RoleARNForLambdaFunction
+      Role: 
+        Fn::ImportValue:
+          Fn::Sub: "RoleARNForLambdaFunction"
+
       FunctionName: !Sub lambda-${Environment}

@@ -43,6 +43,9 @@ Resources:
          - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
          - !Ref s3policy
       RoleName: RoleForLambda
+    # dependson property is used to define sequence for the creation of resources
+    # here RoleForLambdaFunction is dependson s3policy whch means RoleARNForLambdaFunction resource will get created 
+    # after creating s3policy resource   
     DependsOn: s3policy
 Outputs:
   # this is key/variable name
