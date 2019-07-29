@@ -1,4 +1,7 @@
-# creating role and exporting role ARN to use it in another clouformation
+# pre-requisite to run this lambda function is 
+# 1. one bucket at the same region where you are running this lambda
+# 2. jar file or code to run this lambda inside your bucket
+
 AWSTemplateFormatVersion: '2010-09-09'
 Parameters:
   Environment:

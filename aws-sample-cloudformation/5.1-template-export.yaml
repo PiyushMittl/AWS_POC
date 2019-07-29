@@ -1,0 +1,36 @@
+# pre-requisite to run this lambda function is 
+# 1. one bucket at the same region where you are running this lambda
+
+# this cloudformation demostrates how to creating role and policy resources, passing resource values to each other
+# creating policy and passing policy ARN to role and attaching already created policy role
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  Environment:
+    Type: String
+    Default: dev
+    AllowedValues:
+    - dev
+    - tst
+    - prod
+Resources:
+  s3policy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: s3-getobject-policy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Action:
+          - s3:GetObject
+          - s3:PutObject
+          - s3:PutObjectAcl
+          Resource: arn:aws:s3:::messaging-bucket-app/*
+  SampleLambdaFunction:
+    Type: AWS::IAM::Role
+    Properties:
+      ManagedPolicyArns: 
+       - arn:aws:iam::751125203171:role/service-role/LambdaExecutionRole
+      Policies: 
+       - !GetAtt s3policy.Arn
+      RoleName: String
