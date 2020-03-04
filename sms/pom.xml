@@ -23,7 +23,7 @@
 		<aws-beans-version>1.0</aws-beans-version>
 		<aws-constants-version>1.0</aws-constants-version>
 		<aws-exception-version>1.0</aws-exception-version>
-		<jackson-databind-version>2.9.10.1</jackson-databind-version>
+		<jackson-databind-version>2.9.10.3</jackson-databind-version>
 		<gps-common-version>0.0.1-SNAPSHOT</gps-common-version>
 		<aws-jedis-version>1.0</aws-jedis-version>
 		<aws-kinesis-version>1.0</aws-kinesis-version>
