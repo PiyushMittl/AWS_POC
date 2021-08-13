@@ -21,7 +21,7 @@
 		<junit.version>4.12</junit.version>
 		<org.eclipse.paho.client.mqttv3.version>1.0.2</org.eclipse.paho.client.mqttv3.version>
 		<aws-java-sdk-bom.version>1.10.68</aws-java-sdk-bom.version>
-		<bcprov-jdk15on.version>1.54</bcprov-jdk15on.version>
+		<bcprov-jdk15on.version>1.67</bcprov-jdk15on.version>
 		<bcpkix-jdk15on.version>1.54</bcpkix-jdk15on.version>
 		<maven-jar-plugin.version>2.4</maven-jar-plugin.version>
 		<pi4j-core.version>1.0</pi4j-core.version>
