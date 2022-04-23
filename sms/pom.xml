@@ -16,7 +16,7 @@
 		<json-version>20170516</json-version>
 		<jackson-version>2.9.1</jackson-version>
 		<jackson-mapper-asl-version>1.9.13</jackson-mapper-asl-version>
-		<spring-core-version>4.3.19.RELEASE</spring-core-version>
+		<spring-core-version>5.3.19</spring-core-version>
 		<apache-commons-io-version>1.3.2</apache-commons-io-version>
 		<aws-jedis-version>1.0</aws-jedis-version>
 		<aws-logging-version>1.0</aws-logging-version>
