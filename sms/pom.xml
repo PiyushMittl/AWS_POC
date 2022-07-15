@@ -34,7 +34,7 @@
 		<event-version>1.3.0</event-version>
 		<aws-firehose-version>1.0</aws-firehose-version>
 		<mail-version>1.4.7</mail-version>
-		<aws-java-sdk-version>1.11.178</aws-java-sdk-version>
+		<aws-java-sdk-version>1.12.261</aws-java-sdk-version>
 		<aws-java-sdk-core-version>1.11.178</aws-java-sdk-core-version>
 		<aws-lambda-java-events-version>1.3.0</aws-lambda-java-events-version>
 		<message-version>0.0.1-SNAPSHOT</message-version>
